@@ -10,7 +10,7 @@
     },
     "name": "Demo App",
     "nameSlug": "demo-app",
-    "classFile": "DemoAppApp.ts",
-    "description": "An app to Demo Rocket.Chat Apps",
+    "classFile": "DemoApp.ts",
+    "description": "An app to Demo Rocket.Chat Apps Engine",
     "implements": []
 }

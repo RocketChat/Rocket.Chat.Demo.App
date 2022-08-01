@@ -1,0 +1,7 @@
+{
+    "AppDemo_String": "Label for a string setting",
+    "AppDemo_Boolean": "Label for the boolean setting",
+    "AppDemo_Code": "Label for Code",
+    "AppDemo_Color": "Label for a color",
+    "AppDemo_Select": "Label for a Select"
+}
