@@ -1,0 +1,16 @@
+{
+    "id": "67a4e34b-5c04-4c9c-9358-3d0fd217cefd",
+    "version": "0.0.1",
+    "requiredApiVersion": "^1.19.0",
+    "iconFile": "icon.png",
+    "author": {
+        "name": "Duda Nogueira",
+        "homepage": "http://rocket.chat",
+        "support": "https://open.rocket.chat/channel/rocketchat-apps"
+    },
+    "name": "Demo App",
+    "nameSlug": "demo-app",
+    "classFile": "DemoAppApp.ts",
+    "description": "An app to Demo Rocket.Chat Apps",
+    "implements": []
+}
