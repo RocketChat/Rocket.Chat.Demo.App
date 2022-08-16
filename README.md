@@ -1,4 +1,4 @@
-# Demo App
+# Demo App (UNDER DEVELOPMENT)
 An app to Demo Rocket.Chat Apps
 
 ## About this project
