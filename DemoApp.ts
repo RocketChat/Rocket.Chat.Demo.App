@@ -4,6 +4,7 @@ import {
     IConfigurationModify,
     IHttp,
     ILogger,
+    IModify,
     IRead,
 } from '@rocket.chat/apps-engine/definition/accessors';
 import { App } from '@rocket.chat/apps-engine/definition/App';
@@ -12,7 +13,7 @@ import { ISetting } from '@rocket.chat/apps-engine/definition/settings';
 import { settings } from './config/Settings';
 
 export class DemoAppApp extends App {
-    constructor(info: IAppInfo, logger: ILogger, accessors: IAppAccessors) {
+    constructor(info: IAppInfo, logger: ILogger, accessors: IAppAccessors, public modify: IModify) {
         super(info, logger, accessors);
     }
 
@@ -25,9 +26,12 @@ export class DemoAppApp extends App {
         // Monitoring settings change
         // this will show in ADMIN > APPS > INSTALLED APP > THIS APP > LOGS
         // Log from inside the app
-        this.getLogger().info("Do something here. It will be shown in App logs")
-        // Log to sdtout
-        console.log("Some setting was updated! " + JSON.stringify(setting))
+        this.getLogger().info("Some Setting was Updated: " + JSON.stringify(setting))
+        // this will show in sdtout, and also in WORSKPACE > VIEW LOGS 
+        console.log("Some setting was Updated: " + JSON.stringify(setting))
+        /* EXAMPLE OUTPUT
+            rocketconnect-rocketchat-1  | Some setting was Updated: {"id":"appdemo_code","section":"AppDemo_DemoSection","public":true,"type":"code","value":"some code goes here!","packageValue":"","hidden":false,"i18nLabel":"AppDemo_Code","required":false,"createdAt":"2022-11-28T21:11:09.590Z","updatedAt":"2022-11-28T21:16:36.803Z"}
+        */
         return super.onSettingUpdated(setting, configurationModify, read, http);
     }
 
