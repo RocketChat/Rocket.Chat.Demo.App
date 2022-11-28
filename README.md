@@ -8,30 +8,25 @@ This project was created to serve as a central hub with all the features from th
 Here are some of the features:
 
 ### Settings
-
-  - ✅ Creating persistant app settings
-  - ✅ Monitoring settings change
+  - ✅ Create persistant app settings
+  - ✅ Monitor settings change
   - ✅ Settings Types (STRING, SELECT, CODE BOOLEAN)
+  - Settings Sections (Not implemented)
 
 ### Logging
-
   - ✅ Log from inside the app
   - ✅ Log to sdtout
 
-
 ### Tabs and Modals
-
 - Contextual Tab
 - Contextual Action
 - Modal
 - Ui Elements
 
 ### Endpoints
-
 - Endpoint Registration
   
 ### Scheduling
-
 - Scheduling
 
 ### Slash Command 
@@ -39,5 +34,4 @@ Here are some of the features:
 - Slash Command with Preview
 
 ### Actually modifiying things
-
 - LiveChat
