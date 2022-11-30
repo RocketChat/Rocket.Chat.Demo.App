@@ -10,6 +10,7 @@ import {
 import { App } from '@rocket.chat/apps-engine/definition/App';
 import { IAppInfo } from '@rocket.chat/apps-engine/definition/metadata';
 import { ISetting } from '@rocket.chat/apps-engine/definition/settings';
+import { ExampleCommand } from './commands/ExampleCommand';
 import { settings } from './config/Settings';
 
 export class DemoAppApp extends App {
@@ -20,6 +21,8 @@ export class DemoAppApp extends App {
     public async extendConfiguration(configuration: IConfigurationExtend) {
         // Creating persistant app settings
         await Promise.all(settings.map((setting) => configuration.settings.provideSetting(setting)));
+        // providing additional commands
+        configuration.slashCommands.provideSlashCommand(new ExampleCommand());
     }
 
     public async onSettingUpdated(setting: ISetting, configurationModify: IConfigurationModify, read: IRead, http: IHttp): Promise<void> {

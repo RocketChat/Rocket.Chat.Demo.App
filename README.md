@@ -17,6 +17,12 @@ Here are some of the features:
   - ✅ Log from inside the app
   - ✅ Log to sdtout
 
+### Simple Slash Commands
+  - ✅ Example Slash Command
+  - ✅ Slash Command that returns a Notification
+  - ✅ Slash Command that returns a Message
+
+### UI Blocks
 ### Tabs and Modals
 - Contextual Tab
 - Contextual Action
