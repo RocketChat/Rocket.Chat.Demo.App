@@ -11,6 +11,7 @@ Here are some of the features:
   - ✅ Create persistant app settings
   - ✅ Monitor settings change
   - ✅ Settings Types (STRING, SELECT, CODE BOOLEAN)
+  - ✅ Settings Labels with labels in multiple languages
   - Settings Sections (Not implemented)
 
 ### Logging
@@ -22,7 +23,12 @@ Here are some of the features:
   - ✅ Slash Command that returns a Notification
   - ✅ Slash Command that returns a Message
 
+### Advanced Slash Commands
+  - Help and Description
+  - Slash Command with Preview
 ### UI Blocks
+
+
 ### Tabs and Modals
 - Contextual Tab
 - Contextual Action
@@ -34,10 +40,6 @@ Here are some of the features:
   
 ### Scheduling
 - Scheduling
-
-### Slash Command 
-- Slash Command
-- Slash Command with Preview
 
 ### Actually modifiying things
 - LiveChat

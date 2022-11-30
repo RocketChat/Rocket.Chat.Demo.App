@@ -6,5 +6,7 @@
     "AppDemo_Select": "Label for a Select",
     "AppDemo_DemoSection": "This is One Section of Settings",
     "AppDemo_OutputChannel": "Output Messages to this Room",
-    "AppDemo_OutputChannel_Desc": "this is where all messages and alerts of Demo will go to. ex: #general"
+    "AppDemo_OutputChannel_Desc": "this is where all messages and alerts of Demo will go to. ex: #general",
+    "ExampleCommand_Params": "This is the Example Command parameters",
+    "ExampleCommand_Description": "This is the Example Command Description"
 }

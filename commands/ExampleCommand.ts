@@ -11,8 +11,8 @@ import {
 export class ExampleCommand implements ISlashCommand {
     public command = 'example'; // here is where you define the command name,
     // users will need to run /phone to trigger this command
-    public i18nParamsExample = '';
-    public i18nDescription = '';
+    public i18nParamsExample = 'ExampleCommand_Params';
+    public i18nDescription = 'ExampleCommand_Description';
     public providesPreview = false;
 
     public async executor(context: SlashCommandContext, read: IRead, modify: IModify, http: IHttp): Promise<void> {

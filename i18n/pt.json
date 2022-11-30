@@ -1,0 +1,13 @@
+{
+    "AppDemo_String": "Label para uma configuração string",
+    "AppDemo_Boolean": "Label para uma configuração boleana",
+    "AppDemo_Code": "Label para um código",
+    "AppDemo_Color": "Label para uma cor",
+    "AppDemo_Select": "Label para um Select",
+    "AppDemo_DemoSection": "Demo de Seção",
+    "AppDemo_FeatureSettings": "Features Settings",
+    "AppDemo_OutputChannel": "Output Messages to this Room",
+    "AppDemo_OutputChannel_Desc": "this is where all messages and alerts of Demo will go to. ex: #general",
+    "ExampleCommand_Params": "Exemplo de Parâmetro do Comando Exemplo",
+    "ExampleCommand_Description": "Está é a descrição do Comando Examplo"    
+}
