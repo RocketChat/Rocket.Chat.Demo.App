@@ -24,18 +24,21 @@ export class ExampleCommand implements ISlashCommand {
             await this.sendMessage(context, modify, message);
         }else{
             switch (subcommand) { // Try to match the argument in the list of allowed subcommands
+                case 'm':
                 case 'message': // If Message, send a message
                     message = "This is a Message. \n Everyone on this channel can read it."
                     await this.sendMessage(context, modify, message);
                     break;
     
+                case "n":
+                case "notify":
                 case 'notification': // If Notification, well, notifiy!
                     message = "I am a **Notification**. Only you can read me. :eyes: \n Also, I am ephemeral: if you reload, I'll be gone! :cry:"
                     await this.sendNotification(context, modify, message);
                     break;
     
-                default: // [7]
-                    message = "I was not able to identify your subcommand. :( \n\n Options are: message and notification"
+                default: // subcommand not found, a good oportunity for a help message
+                    message = "I was not able to identify your subcommand. :( \n\n Options are:\n message or m \nnotification or notify or n"
                     await this.sendMessage(context, modify, message);
                     break;
             }

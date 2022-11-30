@@ -18,7 +18,7 @@ Here are some of the features:
   - ✅ Log to sdtout
 
 ### Simple Slash Commands
-  - ✅ Example Slash Command
+  - ✅ Example Slash Command with subcommand pattern
   - ✅ Slash Command that returns a Notification
   - ✅ Slash Command that returns a Message
 
