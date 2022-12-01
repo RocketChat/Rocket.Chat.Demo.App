@@ -25,6 +25,7 @@ export class ExampleCommand implements ISlashCommand {
         }else{
             switch (subcommand) { // Try to match the argument in the list of allowed subcommands
                 case 'm':
+                case 'msg':
                 case 'message': // If Message, send a message
                     message = "This is a Message. \n Everyone on this channel can read it."
                     await this.sendMessage(context, modify, message);

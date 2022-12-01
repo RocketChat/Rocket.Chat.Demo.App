@@ -12,5 +12,16 @@
     "nameSlug": "demo-app",
     "classFile": "DemoApp.ts",
     "description": "An app to Demo Rocket.Chat Apps Engine",
-    "implements": []
+    "implements": [],
+    "permissions": [
+        {
+            "name": "ui.registerButtons"
+        },
+        {
+            "name": "slashcommand"
+        },
+        {
+            "name": "message.write"
+        }
+    ]
 }
