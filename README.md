@@ -8,9 +8,10 @@ This project was created to serve as a central hub with all the features from th
 Here are some of the features:
 
 ### Settings
+  - ✅ Declare App permissions in app.json
   - ✅ Create persistant app settings
   - ✅ Monitor settings change
-  - ✅ Settings Types (STRING, SELECT, CODE BOOLEAN)
+  - ✅ Create different Settings Types (STRING, SELECT, CODE BOOLEAN)
   - ✅ Settings Labels with labels in multiple languages
   - Settings Sections (Not implemented)
 
@@ -24,22 +25,26 @@ Here are some of the features:
   - ✅ Slash Command that returns a Message
 
 ### Advanced Slash Commands
-  - Help and Description
+  - ✅ Help and Description
   - Slash Command with Preview
 ### UI Blocks
 
+### Action Buttons
+  - ✅ Registering Action Buttons
+  - ✅ Handling Action Buttons
 
-### Tabs and Modals
-- Contextual Tab
-- Contextual Action
-- Modal
-- Ui Elements
+### Contextual Bars and Modals
+- ✅ Opening Modal and Contextual Bars
+- ✅ Reacting to modal and Contextual Bars
 
 ### Endpoints
 - Endpoint Registration
   
 ### Scheduling
 - Scheduling
+
+### Events and Hooks
+- Registering an Event
 
 ### Actually modifiying things
 - LiveChat

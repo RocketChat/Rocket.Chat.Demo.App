@@ -9,6 +9,6 @@
     "AppDemo_OutputChannel_Desc": "this is where all messages and alerts of Demo will go to. ex: #general",
     "ExampleCommand_Params": "This is the Example Command parameters",
     "ExampleCommand_Description": "This is the Example Command Description",
-    "MyActionNameMessage": "Message Action",
-    "MyActionNameRoom": "Room Action"
+    "MyActionNameMessage": "😎 Message Action",
+    "MyActionNameRoom": "😎 Room Action"
 }

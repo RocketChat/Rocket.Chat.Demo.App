@@ -5,17 +5,24 @@ import {
     IHttp,
     ILogger,
     IModify,
+    IPersistence,
     IRead,
 } from '@rocket.chat/apps-engine/definition/accessors';
 import { App } from '@rocket.chat/apps-engine/definition/App';
 import { IAppInfo } from '@rocket.chat/apps-engine/definition/metadata';
 import { ISetting } from '@rocket.chat/apps-engine/definition/settings';
+import { IUIKitResponse, UIKitActionButtonInteractionContext } from '@rocket.chat/apps-engine/definition/uikit';
 import { ExampleCommand } from './commands/ExampleCommand';
 import { buttons } from './config/Buttons';
 import { settings } from './config/Settings';
 
 export class DemoAppApp extends App {
-    constructor(info: IAppInfo, logger: ILogger, accessors: IAppAccessors, public modify: IModify) {
+    constructor(
+        info: IAppInfo,
+        logger: ILogger,
+        accessors: IAppAccessors,
+        public modify: IModify
+    ) {
         super(info, logger, accessors);
     }
 
@@ -40,6 +47,61 @@ export class DemoAppApp extends App {
         */
         return super.onSettingUpdated(setting, configurationModify, read, http);
     }
-    
+
+    public async executeActionButtonHandler(
+        context: UIKitActionButtonInteractionContext,
+        read: IRead,
+        http: IHttp,
+        persistence: IPersistence,
+        modify: IModify
+    ): Promise<IUIKitResponse> {
+        const {
+            buttonContext,
+            actionId,
+            triggerId,
+            user,
+            room,
+            message,
+        } = context.getInteractionData();
+
+        
+
+        // If you have multiple action buttons, use `actionId` to determine 
+        // which one the user interacted with
+        if (actionId === 'my-action-id-message') {
+            const blockBuilder = modify.getCreator().getBlockBuilder();
+            blockBuilder.addSectionBlock({
+                text: blockBuilder.newMarkdownTextObject(
+                `We received your interaction, thanks!\n` +
+                `**Action ID**:  ${actionId}\n` + 
+                `**Room**:  ${room.displayName || room.slugifiedName}\n` + 
+                `**Room Type**:  ${room.type}\n` + 
+                `**Message ID**:  ${message?.id}\n` + 
+                `**Text**:  ${message?.text}\n` +
+                `**Sender**:  ${message?.sender.username} at ${message?.createdAt}\n` +
+                `**Total Messages at room**: ${room.messageCount}`)
+            })
+            // let's open a modal using openModalViewResponse with al those information
+            return context.getInteractionResponder().openModalViewResponse({
+                title: blockBuilder.newPlainTextObject('Button Action on a Message!'),
+                blocks: blockBuilder.getBlocks(),
+            });
+        }
+
+        if (actionId === 'my-action-id-room') {
+            const blockBuilder = modify.getCreator().getBlockBuilder();
+
+            // let's open a Contextual Bar using openContextualBarViewResponse, instead of a modal
+            return context.getInteractionResponder().openContextualBarViewResponse({
+                title: blockBuilder.newPlainTextObject('Button Action on a Room'),
+                blocks: blockBuilder.addSectionBlock({
+                    text: blockBuilder.newPlainTextObject('We received your interaction, thanks!')
+                }).getBlocks(),
+            });
+        }
+
+        return context.getInteractionResponder().successResponse();
+    }
+
 
 }
