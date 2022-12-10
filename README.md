@@ -20,15 +20,13 @@ Here are some of the features:
   - ✅ Log to sdtout
 
 ### Simple Slash Commands
-  - ✅ Example Slash Command with subcommand pattern
+  - ✅ Slash Command with subcommand pattern and subcommand aliases
   - ✅ Slash Command that returns a Notification
   - ✅ Slash Command that returns a Message
 
 ### Advanced Slash Commands
   - ✅ Help and Description
   - Slash Command with Preview
-### UI Blocks
-
 ### Action Buttons
   - ✅ Registering Action Buttons
   - ✅ Handling Action Buttons
@@ -36,6 +34,17 @@ Here are some of the features:
 ### Contextual Bars and Modals
 - ✅ Opening Modal and Contextual Bars
 - ✅ Reacting to modal and Contextual Bars
+
+### Handlers
+- ✅ View Submit Handler
+- ✅ Block Action Handler
+
+### UI Blocks
+  - Block building
+  - 
+### Data Persistence
+- Store user inputs associated with room, user or message
+- Read user inputs
 
 ### Endpoints
 - Endpoint Registration
@@ -46,5 +55,5 @@ Here are some of the features:
 ### Events and Hooks
 - Registering an Event
 
-### Actually modifiying things
-- LiveChat
+### External Dependencies
+- Adding external dependencies to your App.

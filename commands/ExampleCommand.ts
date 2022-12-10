@@ -71,6 +71,7 @@ export class ExampleCommand implements ISlashCommand {
         block.addSectionBlock({
             text: block.newMarkdownTextObject(message),
         });
+
         // now let's set the blocks in our message
         messageStructure.setBlocks(block);
         // and finally, notify the user with the IMessage
