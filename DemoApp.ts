@@ -92,7 +92,7 @@ export class DemoAppApp extends App {
         read: IRead,
         http: IHttp,
         persistence: IPersistence,
-        modify: IModify,
+        modify: IModify
     ) {
         // same for View SubmitHandler, moving to another Class
         return new ExampleViewSubmitHandler().executor(
@@ -102,6 +102,6 @@ export class DemoAppApp extends App {
             persistence,
             modify,
             this.getLogger()
-        )
+        );
     }
 }
