@@ -8,6 +8,10 @@ import {
     IPersistence,
     IRead,
 } from "@rocket.chat/apps-engine/definition/accessors";
+import {
+    ApiSecurity,
+    ApiVisibility,
+} from "@rocket.chat/apps-engine/definition/api";
 import { App } from "@rocket.chat/apps-engine/definition/App";
 import { IAppInfo } from "@rocket.chat/apps-engine/definition/metadata";
 import { ISetting } from "@rocket.chat/apps-engine/definition/settings";
@@ -16,6 +20,7 @@ import {
     UIKitActionButtonInteractionContext,
     UIKitViewSubmitInteractionContext,
 } from "@rocket.chat/apps-engine/definition/uikit";
+import { ExampleEndpoint } from "./api/exampleEndPoint";
 import { ExampleCommand } from "./commands/ExampleCommand";
 import { buttons } from "./config/Buttons";
 import { settings } from "./config/Settings";
@@ -27,19 +32,25 @@ export class DemoAppApp extends App {
         info: IAppInfo,
         logger: ILogger,
         accessors: IAppAccessors,
-        public modify: IModify
     ) {
         super(info, logger, accessors);
     }
 
     public async extendConfiguration(configuration: IConfigurationExtend) {
-        // Creating persistant app settings
+        // Providing API Endpoints
+        configuration.api.provideApi({
+            visibility: ApiVisibility.PUBLIC,
+            security: ApiSecurity.UNSECURE,
+            endpoints: [new ExampleEndpoint(this)],
+        });
+
+        // Providing persistant app settings
         await Promise.all(
             settings.map((setting) =>
                 configuration.settings.provideSetting(setting)
             )
         );
-        // Providing additional commands
+        // Providing slash commands
         await configuration.slashCommands.provideSlashCommand(
             new ExampleCommand()
         );

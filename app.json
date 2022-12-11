@@ -22,6 +22,15 @@
         },
         {
             "name": "message.write"
+        },
+        {
+            "name": "api"
+        },
+        {
+            "name": "room.read"
+        },
+        {
+            "name": "room.write"
         }
     ]
 }
