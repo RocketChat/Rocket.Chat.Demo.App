@@ -48,6 +48,7 @@ Here are some of the features:
 
 ### Endpoints
 - Endpoint Registration
+- Endpoint Handlers
   
 ### Scheduling
 - Scheduling
