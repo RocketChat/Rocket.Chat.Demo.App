@@ -47,8 +47,8 @@ Here are some of the features:
 - Read user inputs
 
 ### Endpoints
-- Endpoint Registration
-- Endpoint Handlers
+- ✅ Endpoint Registration
+- ✅ Endpoint Handlers
   
 ### Scheduling
 - Scheduling
