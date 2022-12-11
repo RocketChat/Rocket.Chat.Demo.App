@@ -58,3 +58,12 @@ Here are some of the features:
 
 ### External Dependencies
 - Adding external dependencies to your App.
+
+### App Lyfecycle
+- initialize
+- ✅ extendConfiguration
+- onEnable
+- onDisable
+- ✅ onSettingUpdated
+
+### Internal State Management
