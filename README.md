@@ -45,11 +45,12 @@ Here are some of the features:
 ### Data Persistence
 - Store user inputs associated with room, user or message
 - Read user inputs
+- ✅ Data Persistence using Registered API
 
 ### Endpoints
-- ✅ Endpoint Registration
+- ✅ Endpoint Registration (POST, GET and DELETE Methods)
 - ✅ Endpoint Handlers
-  
+
 ### Scheduling
 - Scheduling
 
