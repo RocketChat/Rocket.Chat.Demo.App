@@ -27,7 +27,7 @@ export class ExampleCommand implements ISlashCommand {
                 case 'm':
                 case 'msg':
                 case 'message': // If Message, send a message
-                    message = "This is a Message. \n Everyone on this channel can read it."
+                    message = "I am a **Message**. :envelope: \n Everyone in this channel can read it. :dark_sunglasses: "
                     await this.sendMessage(context, modify, message);
                     break;
     
@@ -61,9 +61,10 @@ export class ExampleCommand implements ISlashCommand {
     private async sendNotification(context: SlashCommandContext, modify: IModify, message: string): Promise<void> {
         const sender = context.getSender(); // get the sender from context
         const room = context.getRoom(); // get the rom from context
-        const messageStructure = modify.getCreator().startMessage().setRoom(room);
-        // if you want the notification to be sent from the same user running the command:
-        // const messageStructure = messageStructure.setRoom(room)
+        var messageStructure = modify.getCreator().startMessage().setRoom(room);
+        // uncomment bellow if you want the notification to be sent by the sender
+        // instead of the app bot user
+        // messageStructure = messageStructure.setSender(sender)
 
         // lets build a really simple block (more on that on other Commands)
         const block = modify.getCreator().getBlockBuilder();
