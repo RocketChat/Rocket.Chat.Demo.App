@@ -21,6 +21,7 @@ import {
     UIKitViewSubmitInteractionContext,
 } from "@rocket.chat/apps-engine/definition/uikit";
 import { ExampleEndpoint } from "./api/exampleEndPoint";
+import { ApiWithPersistence } from "./api/PersistenceWithEndPoint";
 import { ExampleCommand } from "./commands/ExampleCommand";
 import { buttons } from "./config/Buttons";
 import { settings } from "./config/Settings";
@@ -38,11 +39,17 @@ export class DemoAppApp extends App {
 
     public async extendConfiguration(configuration: IConfigurationExtend) {
         // Providing API Endpoints
-        configuration.api.provideApi({
+        await configuration.api.provideApi({
             visibility: ApiVisibility.PUBLIC,
             security: ApiSecurity.UNSECURE,
             endpoints: [new ExampleEndpoint(this)],
         });
+        // Providing API Endpoint with Persistence
+        await configuration.api.provideApi({
+            visibility: ApiVisibility.PUBLIC,
+            security: ApiSecurity.UNSECURE,
+            endpoints: [new ApiWithPersistence(this)],
+        });        
 
         // Providing persistant app settings
         await Promise.all(
@@ -69,11 +76,17 @@ export class DemoAppApp extends App {
         // Monitoring settings change
         // this will show in ADMIN > APPS > INSTALLED APP > THIS APP > LOGS
         // Log from inside the app
-        this.getLogger().info(
-            "Some Setting was Updated: " + JSON.stringify(setting)
-        );
+        // note that you can pass both any or a list or any
+        let list_to_log = ["Some Setting was Updated. SUCCESS MESSAGE: ", setting]
+        // you can have a different type of logs:
+        this.getLogger().success(list_to_log);        
+        this.getLogger().info(list_to_log);
+        this.getLogger().debug(list_to_log);
+        this.getLogger().warn(list_to_log);
+        this.getLogger().error(list_to_log);
+
         // this will show in sdtout, and also in WORSKPACE > VIEW LOGS
-        console.log("Some setting was Updated: " + JSON.stringify(setting));
+        console.log("Some setting was Updated: ", JSON.stringify(setting));
         /* EXAMPLE OUTPUT
             rocketconnect-rocketchat-1  | Some setting was Updated: {"id":"appdemo_code","section":"AppDemo_DemoSection","public":true,"type":"code","value":"some code goes here!","packageValue":"","hidden":false,"i18nLabel":"AppDemo_Code","required":false,"createdAt":"2022-11-28T21:11:09.590Z","updatedAt":"2022-11-28T21:16:36.803Z"}
         */

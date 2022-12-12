@@ -20,9 +20,9 @@ Here are some of the features:
   - ✅ Log to sdtout
 
 ### Simple Slash Commands
-  - ✅ Slash Command with subcommand pattern and subcommand aliases
-  - ✅ Slash Command that returns a Notification
-  - ✅ Slash Command that returns a Message
+  - ✅ [Slash Command that returns a Message](https://github.com/RocketChat/Rocket.Chat.Demo.App/wiki/Example-Slash-Command#message-example)
+  - ✅ [Slash Command that returns a Notification](https://github.com/RocketChat/Rocket.Chat.Demo.App/wiki/Example-Slash-Command#notification-example)  
+  - ✅ [Slash Command with subcommand pattern and subcommand aliases](https://github.com/RocketChat/Rocket.Chat.Demo.App/wiki/Example-Slash-Command#some-good-practices) 
 
 ### Advanced Slash Commands
   - ✅ Help and Description
@@ -45,11 +45,12 @@ Here are some of the features:
 ### Data Persistence
 - Store user inputs associated with room, user or message
 - Read user inputs
+- ✅ Data Persistence using Registered API
 
 ### Endpoints
-- ✅ Endpoint Registration
+- ✅ Endpoint Registration (POST, GET and DELETE Methods)
 - ✅ Endpoint Handlers
-  
+
 ### Scheduling
 - Scheduling
 
