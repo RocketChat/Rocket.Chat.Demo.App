@@ -5,6 +5,8 @@ An app to Demo Rocket.Chat Apps Engine
 ## About this project
 This project was created to serve as a central hub with all the features from the Rocket.Chat Apps Engine. Check below all the features and it's implementation status
 
+## HELP WANTED!
+[Join our Channel](https://open.rocket.chat/channel/Demo-App) and help us develop this App!
 
 
 ## Current Features
