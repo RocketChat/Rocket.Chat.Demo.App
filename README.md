@@ -1,6 +1,6 @@
 # Demo App (UNDER DEVELOPMENT)
 <img src="icon.png" width="128"/>
-An app to Demo Rocket.Chat Apps Engine
+The best Rocket.Chat Apps Engine Demo out there.
 
 ## About this project
 This project was created to serve as a central hub with all the features from the Rocket.Chat Apps Engine. Check below all the features and it's implementation status
@@ -32,6 +32,7 @@ Here are some of the features:
 ### Advanced Slash Commands
   - ✅ Help and Description
   - Slash Command with Preview
+  - Slash Command `/increment`: Persist data in Rocket.Chat
 ### Action Buttons
   - ✅ Registering Action Buttons
   - ✅ Handling Action Buttons
