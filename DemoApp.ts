@@ -20,7 +20,7 @@ import {
     UIKitActionButtonInteractionContext,
     UIKitViewSubmitInteractionContext,
 } from "@rocket.chat/apps-engine/definition/uikit";
-import { ExampleEndpoint } from "./api/exampleEndPoint";
+import { ExampleEndpoint } from "./api/ExampleEndPoint";
 import { ApiWithPersistence } from "./api/PersistenceWithEndPoint";
 import { ExampleCommand } from "./commands/ExampleCommand";
 import { buttons } from "./config/Buttons";
