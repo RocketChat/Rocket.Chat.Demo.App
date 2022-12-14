@@ -3,12 +3,20 @@ import {
     IModify,
     IRead,
 } from "@rocket.chat/apps-engine/definition/accessors";
+import { IApp } from "@rocket.chat/apps-engine/definition/IApp";
+import { IRoom, RoomType } from "@rocket.chat/apps-engine/definition/rooms";
 import {
     ISlashCommand,
     SlashCommandContext,
 } from "@rocket.chat/apps-engine/definition/slashcommands";
+import { IUser } from "@rocket.chat/apps-engine/definition/users";
 
 export class ExampleCommand implements ISlashCommand {
+    app: IApp;
+
+    constructor(app) {
+        this.app = app;
+    }
     public command = "example"; // here is where you define the command name,
     // users will need to run /phone to trigger this command
     public i18nParamsExample = "ExampleCommand_Params";
@@ -23,18 +31,19 @@ export class ExampleCommand implements ISlashCommand {
     ): Promise<void> {
         // let's discover if we have a subcommand
         const [subcommand] = context.getArguments();
-
+        read.getUserReader();
+        // lets define a deult help message
+        const you_can_run =
+            "You can run:\n" +
+            "`/example [message|m]` to display a message\n" +
+            "`/example [notification|n]` to display a notification\n" +
+            "`/example [direct|d]` to send a direct message\n" +
+            "`/example [help|h]` to get help";
         if (!subcommand) {
             // no subcommand, let's just show that
-            var message = "No Subcommand :confounded:";
+            var message = `No Subcommand :confounded: \n ${you_can_run}`;
             await this.sendMessage(context, modify, message);
         } else {
-            // lets define a deult help message
-            const you_can_run =
-                "You can run:\n" +
-                "`/example [message|m]` to display a message\n" +
-                "`/example [notification|n]` to display a notification\n" +
-                "`/example [help|h]` to get help";
             switch (
                 subcommand // Try to match the argument in the list of allowed subcommands
             ) {
@@ -52,6 +61,13 @@ export class ExampleCommand implements ISlashCommand {
                     message =
                         "I am a **Notification**. Only you can read me. :eyes: \n Also, I am ephemeral: if you reload, I'll be gone! :cry:";
                     await this.sendNotification(context, modify, message);
+                    break;
+
+                case "d":
+                case "direct": // If Notification, well, notifiy!
+                    message =
+                        "I am a **DIRECT Message**. I was created for you, and only you! :heart_decoration:";
+                    await this.sendDirect(context, read, modify, message);
                     break;
 
                 case "h":
@@ -80,6 +96,7 @@ export class ExampleCommand implements ISlashCommand {
 
         await modify.getCreator().finish(messageStructure); // sends the message in the room.
     }
+
     private async sendNotification(
         context: SlashCommandContext,
         modify: IModify,
@@ -105,5 +122,68 @@ export class ExampleCommand implements ISlashCommand {
         await modify
             .getNotifier()
             .notifyUser(sender, messageStructure.getMessage());
+    }
+
+    private async getOrCreateDirectRoom(
+        read: IRead,
+        modify: IModify,
+        usernames: Array<string>,
+        creator?: IUser
+    ) {
+        let room;
+        // first, let's try to get the direct room for given usernames
+        try {
+            room = await read.getRoomReader().getDirectByUsernames(usernames);
+        } catch (error) {
+            this.app.getLogger().log(error);
+            return;
+        }
+        // nice, room exist already, lets return it.
+        if (room) {
+            return room;
+        } else {
+            // no room for the given users. Lets create a room now!
+            // for flexibility, we might allow different creators
+            // if no creator, use app user bot
+            if (!creator) {
+                creator = await read.getUserReader().getAppUser();
+                if (!creator) {
+                    throw new Error("Error while getting AppUser");
+                }
+            }            
+
+            let roomId: string;
+            // Create direct room
+            const newRoom = modify
+                .getCreator()
+                .startRoom()
+                .setType(RoomType.DIRECT_MESSAGE)
+                .setCreator(creator)
+                .setMembersToBeAddedByUsernames(usernames);
+            roomId = await modify.getCreator().finish(newRoom);
+            return await read.getRoomReader().getById(roomId);
+        }
+    }
+
+    private async sendDirect(
+        context: SlashCommandContext,
+        read: IRead,
+        modify: IModify,
+        message: string
+    ): Promise<void> {
+        const messageStructure = modify.getCreator().startMessage();
+        const sender = context.getSender(); // get the sender from context
+        // get the appUser username
+        const appUser = await read.getUserReader().getAppUser();
+        if (!appUser) {
+            throw new Error("Something went wrong getting App User!");
+        }
+        // lets use a function we created to get or create direct room
+        let room = (await this.getOrCreateDirectRoom(read, modify, [
+            sender.username,
+            appUser.username,
+        ])) as IRoom;
+        messageStructure.setRoom(room).setText(message); // set the text message
+        await modify.getCreator().finish(messageStructure); // sends the message in the room.
     }
 }
