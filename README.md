@@ -34,6 +34,7 @@ Here are some of the features:
   - ✅ Help and Description
   - Slash Command with Preview
   - Slash Command `/increment`: Persist data in Rocket.Chat
+  
 ### Action Buttons
   - ✅ Registering Action Buttons
   - ✅ Handling Action Buttons
@@ -55,7 +56,8 @@ Here are some of the features:
 - ✅ Data Persistence using Registered API
 
 ### Endpoints
-- ✅ Endpoint Registration (POST, GET and DELETE Methods)
+- ✅ Simple Endpoint Registration
+- ✅ Advanced Endpoint with Persistence
 - ✅ Endpoint Handlers
 
 ### Scheduling
