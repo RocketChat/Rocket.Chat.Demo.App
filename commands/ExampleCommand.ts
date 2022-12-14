@@ -131,7 +131,7 @@ export class ExampleCommand implements ISlashCommand {
         creator?: IUser
     ) {
         let room;
-        // first, let's try to get the direct room for given usersnames
+        // first, let's try to get the direct room for given usernames
         try {
             room = await read.getRoomReader().getDirectByUsernames(usernames);
         } catch (error) {
