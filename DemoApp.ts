@@ -59,7 +59,7 @@ export class DemoAppApp extends App {
         );
         // Providing slash commands
         await configuration.slashCommands.provideSlashCommand(
-            new ExampleCommand()
+            new ExampleCommand(this)
         );
         // Registering Action Buttons
         await Promise.all(
