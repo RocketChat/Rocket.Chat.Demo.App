@@ -28,10 +28,10 @@ export class ExampleEndpoint extends ApiEndpoint {
         // if there is a payload, let's format it to a string/message
         if (Object.entries(request.content).length) {
             body = Object.entries(request.content)
-                .map(([key, value]) => `**${key}**: ${JSON.stringify(value)}`)
+                .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
                 .join("\n");
         } else {
-            body = "No Payload sent :(";
+            body = "No Payload sent :cry:";
         }
         // log it, if you want
         this.app.getLogger().info("ENDPOINT CALLED: " + body);

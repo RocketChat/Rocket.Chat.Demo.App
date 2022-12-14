@@ -56,7 +56,7 @@ Here are some of the features:
 - ✅ Data Persistence using Registered API
 
 ### Endpoints
-- ✅ Simple Endpoint Registration
+- ✅ [Registration and Payloads](https://github.com/RocketChat/Rocket.Chat.Demo.App/wiki/Simple-API-Endpoint)
 - ✅ Advanced Endpoint with Persistence
 - ✅ Endpoint Handlers
 
