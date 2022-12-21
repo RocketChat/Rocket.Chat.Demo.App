@@ -3,7 +3,9 @@
 The best Rocket.Chat Apps Engine Demo out there.
 
 ## About this project
-This project was created to serve as a central hub with all the features from the Rocket.Chat Apps Engine. Check below all the features and it's implementation status
+This project was created to serve as a central hub with all the features from the Rocket.Chat Apps Engine. 
+
+Check below all the features and it's implementation status. [Browse our WIKI for more documentation.](https://github.com/RocketChat/Rocket.Chat.Demo.App/wiki)
 
 ## HELP WANTED!
 [Join our Channel](https://open.rocket.chat/channel/Demo-App) and help us develop this App!
