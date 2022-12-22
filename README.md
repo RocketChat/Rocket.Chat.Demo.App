@@ -35,7 +35,7 @@ Here are some of the features:
 ### Advanced Slash Commands
   - ✅ Help and Description
   - Slash Command with Preview
-  - Slash Command `/increment`: Persist data in Rocket.Chat
+  - ✅ Slash Command `/increment`: Persist data in Rocket.Chat
   
 ### Action Buttons
   - ✅ Registering Action Buttons
