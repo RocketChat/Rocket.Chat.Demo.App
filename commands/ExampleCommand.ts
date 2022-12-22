@@ -10,6 +10,7 @@ import {
     SlashCommandContext,
 } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { IUser } from "@rocket.chat/apps-engine/definition/users";
+import { sendMessage } from '../lib/sendMessage';
 
 export class ExampleCommand implements ISlashCommand {
     app: IApp;
@@ -31,6 +32,8 @@ export class ExampleCommand implements ISlashCommand {
     ): Promise<void> {
         // let's discover if we have a subcommand
         const [subcommand] = context.getArguments();
+        const room = context.getRoom();
+        const sender = context.getSender();
         read.getUserReader();
         // lets define a deult help message
         const you_can_run =
@@ -42,7 +45,7 @@ export class ExampleCommand implements ISlashCommand {
         if (!subcommand) {
             // no subcommand, let's just show that
             var message = `No Subcommand :confounded: \n ${you_can_run}`;
-            await this.sendMessage(context, modify, message);
+            await sendMessage(modify, room, sender, message);
         } else {
             switch (
                 subcommand // Try to match the argument in the list of allowed subcommands
@@ -52,7 +55,7 @@ export class ExampleCommand implements ISlashCommand {
                 case "message": // If Message, send a message
                     message =
                         "I am a **Message**. :envelope: \n Everyone in this channel can read it. :dark_sunglasses: ";
-                    await this.sendMessage(context, modify, message);
+                    await sendMessage(modify, room, sender, message);
                     break;
 
                 case "n":
@@ -82,21 +85,6 @@ export class ExampleCommand implements ISlashCommand {
             }
         }
     }
-
-    private async sendMessage(
-        context: SlashCommandContext,
-        modify: IModify,
-        message: string
-    ): Promise<void> {
-        const messageStructure = modify.getCreator().startMessage();
-        const sender = context.getSender(); // get the sender from context
-        const room = context.getRoom(); // get the rom from context
-
-        messageStructure.setSender(sender).setRoom(room).setText(message); // set the text message
-
-        await modify.getCreator().finish(messageStructure); // sends the message in the room.
-    }
-
     private async sendNotification(
         context: SlashCommandContext,
         modify: IModify,
@@ -150,7 +138,7 @@ export class ExampleCommand implements ISlashCommand {
                 if (!creator) {
                     throw new Error("Error while getting AppUser");
                 }
-            }            
+            }
 
             let roomId: string;
             // Create direct room
