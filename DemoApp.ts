@@ -117,8 +117,13 @@ export class DemoAppApp extends App {
         http: IHttp,
         persistence: IPersistence,
         modify: IModify
-    ) {
+    ): Promise<IUIKitResponse> {
         // same for View SubmitHandler, moving to another Class
+        let data = context.getInteractionData()
+        console.log("executeViewSubmitHandler with data: ", data)
+        // ISSUE: No room here
+        console.log("ROOM", data.room)
+        //
         return new ExampleViewSubmitHandler().executor(
             context,
             read,
