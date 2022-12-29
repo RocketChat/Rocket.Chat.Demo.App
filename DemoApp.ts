@@ -23,6 +23,7 @@ import {
 import { ExampleEndpoint } from "./api/ExampleEndPoint";
 import { ApiWithPersistence } from "./api/PersistenceWithEndPoint";
 import { ExampleCommand } from "./commands/ExampleCommand";
+import { IncrementCommand } from "./commands/IncrementCommand";
 import { buttons } from "./config/Buttons";
 import { settings } from "./config/Settings";
 import { ExampleActionButtonHandler } from "./handlers/ActionButton";
@@ -49,7 +50,7 @@ export class DemoAppApp extends App {
             visibility: ApiVisibility.PUBLIC,
             security: ApiSecurity.UNSECURE,
             endpoints: [new ApiWithPersistence(this)],
-        });        
+        });
 
         // Providing persistant app settings
         await Promise.all(
@@ -60,6 +61,9 @@ export class DemoAppApp extends App {
         // Providing slash commands
         await configuration.slashCommands.provideSlashCommand(
             new ExampleCommand(this)
+        );
+        await configuration.slashCommands.provideSlashCommand(
+            new IncrementCommand(this),
         );
         // Registering Action Buttons
         await Promise.all(
@@ -79,7 +83,7 @@ export class DemoAppApp extends App {
         // note that you can pass both any or a list or any
         let list_to_log = ["Some Setting was Updated. SUCCESS MESSAGE: ", setting]
         // you can have a different type of logs:
-        this.getLogger().success(list_to_log);        
+        this.getLogger().success(list_to_log);
         this.getLogger().info(list_to_log);
         this.getLogger().debug(list_to_log);
         this.getLogger().warn(list_to_log);
