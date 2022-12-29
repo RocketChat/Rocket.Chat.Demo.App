@@ -10,6 +10,8 @@ import {
     SlashCommandContext,
 } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { IUser } from "@rocket.chat/apps-engine/definition/users";
+import { sendMessage } from '../lib/sendMessage';
+import { sendNotification } from '../lib/sendNotification';
 
 export class ExampleCommand implements ISlashCommand {
     app: IApp;
@@ -31,6 +33,8 @@ export class ExampleCommand implements ISlashCommand {
     ): Promise<void> {
         // let's discover if we have a subcommand
         const [subcommand] = context.getArguments();
+        const room = context.getRoom();
+        const sender = context.getSender();
         read.getUserReader();
         // lets define a deult help message
         const you_can_run =
@@ -42,7 +46,7 @@ export class ExampleCommand implements ISlashCommand {
         if (!subcommand) {
             // no subcommand, let's just show that
             var message = `No Subcommand :confounded: \n ${you_can_run}`;
-            await this.sendMessage(context, modify, message);
+            await sendNotification(modify, room, sender, message);
         } else {
             switch (
                 subcommand // Try to match the argument in the list of allowed subcommands
@@ -52,7 +56,7 @@ export class ExampleCommand implements ISlashCommand {
                 case "message": // If Message, send a message
                     message =
                         "I am a **Message**. :envelope: \n Everyone in this channel can read it. :dark_sunglasses: ";
-                    await this.sendMessage(context, modify, message);
+                    await sendMessage(modify, room, sender, message);
                     break;
 
                 case "n":
@@ -60,11 +64,11 @@ export class ExampleCommand implements ISlashCommand {
                 case "notification": // If Notification, well, notifiy!
                     message =
                         "I am a **Notification**. Only you can read me. :eyes: \n Also, I am ephemeral: if you reload, I'll be gone! :cry:";
-                    await this.sendNotification(context, modify, message);
+                    await sendNotification(modify, room, sender, message);
                     break;
 
                 case "d":
-                case "direct": // If Notification, well, notifiy!
+                case "direct": // If Direct, send a direct message
                     message =
                         "I am a **DIRECT Message**. I was created for you, and only you! :heart_decoration:";
                     await this.sendDirect(context, read, modify, message);
@@ -72,56 +76,15 @@ export class ExampleCommand implements ISlashCommand {
 
                 case "h":
                 case "help":
-                    await this.sendNotification(context, modify, you_can_run);
+                    await sendNotification(modify, room, sender, you_can_run);
                     break;
 
                 default: // subcommand not found, a good oportunity for a help message
                     message = `:warning: I was not able to identify your sub command: \`${subcommand}\` \n\n${you_can_run}`;
-                    await this.sendNotification(context, modify, message);
+                    await sendNotification(modify, room, sender, message);
                     break;
             }
         }
-    }
-
-    private async sendMessage(
-        context: SlashCommandContext,
-        modify: IModify,
-        message: string
-    ): Promise<void> {
-        const messageStructure = modify.getCreator().startMessage();
-        const sender = context.getSender(); // get the sender from context
-        const room = context.getRoom(); // get the rom from context
-
-        messageStructure.setSender(sender).setRoom(room).setText(message); // set the text message
-
-        await modify.getCreator().finish(messageStructure); // sends the message in the room.
-    }
-
-    private async sendNotification(
-        context: SlashCommandContext,
-        modify: IModify,
-        message: string
-    ): Promise<void> {
-        const sender = context.getSender(); // get the sender from context
-        const room = context.getRoom(); // get the rom from context
-        var messageStructure = modify.getCreator().startMessage().setRoom(room);
-        // uncomment bellow if you want the notification to be sent by the sender
-        // instead of the app bot user
-        // messageStructure = messageStructure.setSender(sender)
-
-        // lets build a really simple block (more on that on other Commands)
-        const block = modify.getCreator().getBlockBuilder();
-        // we want this block to have a Text supporting MarkDown
-        block.addSectionBlock({
-            text: block.newMarkdownTextObject(message),
-        });
-
-        // now let's set the blocks in our message
-        messageStructure.setBlocks(block);
-        // and finally, notify the user with the IMessage
-        await modify
-            .getNotifier()
-            .notifyUser(sender, messageStructure.getMessage());
     }
 
     private async getOrCreateDirectRoom(
@@ -150,7 +113,7 @@ export class ExampleCommand implements ISlashCommand {
                 if (!creator) {
                     throw new Error("Error while getting AppUser");
                 }
-            }            
+            }
 
             let roomId: string;
             // Create direct room
