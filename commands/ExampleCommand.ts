@@ -3,27 +3,25 @@ import {
     IModify,
     IRead,
 } from "@rocket.chat/apps-engine/definition/accessors";
-import { IApp } from "@rocket.chat/apps-engine/definition/IApp";
 import { IRoom, RoomType } from "@rocket.chat/apps-engine/definition/rooms";
 import {
     ISlashCommand,
     SlashCommandContext,
 } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { IUser } from "@rocket.chat/apps-engine/definition/users";
+import { DemoAppApp } from "../DemoApp";
 import { sendMessage } from '../lib/sendMessage';
 import { sendNotification } from '../lib/sendNotification';
 
 export class ExampleCommand implements ISlashCommand {
-    app: IApp;
 
-    constructor(app) {
-        this.app = app;
-    }
     public command = "example"; // here is where you define the command name,
     // users will need to run /phone to trigger this command
     public i18nParamsExample = "ExampleCommand_Params";
     public i18nDescription = "ExampleCommand_Description";
     public providesPreview = false;
+
+    constructor(private readonly app: DemoAppApp) {}
 
     public async executor(
         context: SlashCommandContext,
@@ -31,6 +29,10 @@ export class ExampleCommand implements ISlashCommand {
         modify: IModify,
         http: IHttp
     ): Promise<void> {
+        
+        // as we passed the App to the constructor, we can call it here
+        // lets log this slash command call
+        this.app.getLogger().info(`Slash Command /${this.command} initiated. Trigger id: ${context.getTriggerId()} with arguments ${context.getArguments()}`)
         // let's discover if we have a subcommand
         const [subcommand] = context.getArguments();
         const room = context.getRoom();
