@@ -21,7 +21,7 @@ export async function sendNotification(
     const block = modify.getCreator().getBlockBuilder();
     // we want this block to have a Text supporting MarkDown
     block.addSectionBlock({
-        text: block.newMarkdownTextObject(message),
+        text: block.newPlainTextObject(message),
     });
 
     // now let's set the blocks in our message
