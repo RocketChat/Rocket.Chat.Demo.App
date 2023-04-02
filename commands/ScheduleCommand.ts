@@ -43,7 +43,7 @@ export class ScheduleCommand implements ISlashCommand {
         const room = context.getRoom();
         const sender = context.getSender();
         read.getUserReader();
-        // lets define a deult help message
+        // lets define a default help message
         const helpMessage = `
             *You can schedule your tasks or reminders with this command*
             Schedule a reminder -> \`/schedule [reminder|r]\`

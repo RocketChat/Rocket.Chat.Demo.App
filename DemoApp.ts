@@ -70,6 +70,7 @@ export class DemoAppApp extends App {
             buttons.map((button) => configuration.ui.registerButton(button))
         );
         // Registring schedluing processors
+        // This processor can be scheduled using the process id
         await configuration.scheduler.registerProcessors([
             {
                 id: "reminder",

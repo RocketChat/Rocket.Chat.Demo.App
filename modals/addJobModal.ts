@@ -9,9 +9,21 @@ export async function addJob(
     read: IRead,
     modify: IModify
 ) {
-    // Setting the viewId to identify action after view submit
+    // We start building the modal by getting an instance of block builder
+    // We can build a modal using blocks and elements in the block
     const block = modify.getCreator().getBlockBuilder();
+/*
+    We now add blocks to the block builder using various methods
+    Here we are adding an input block
+    A block must have an element and a label , other are optional
+    blockId is an identifier for the block and actionId is an identifier for the element
+    Also an action is triggered for the action block and can be handled using the
+    actionId of the element
+    We use enums for blockIds or actionIds which eliminates the redundancy and
+    errors in the code
+    */
 
+    // Adding multiline input block for reminder message
     block.addInputBlock({
         blockId: blockId.JOB,
         element: block.newPlainTextInputElement({
@@ -23,6 +35,8 @@ export async function addJob(
         }),
         label: block.newPlainTextObject("Reminder message"),
     });
+
+    // Adding option block for selecting the room to send the reminder
     block.addInputBlock({
         blockId: blockId.JOB,
         element: block.newStaticSelectElement({
@@ -30,7 +44,7 @@ export async function addJob(
             options: [
                 {
                     text: block.newPlainTextObject("Room"),
-                    value: context.getRoom().id,
+                    value: context.getRoom().id, // Here the value is the roomId which we will use in further configuration
                 },
                 {
                     text: block.newPlainTextObject("Direct message"),
@@ -41,6 +55,8 @@ export async function addJob(
         }),
         label: block.newPlainTextObject("Room"),
     });
+
+    // Adding option input block for time interval selection
     block.addInputBlock({
         blockId: blockId.JOB,
         element: block.newStaticSelectElement({
@@ -64,6 +80,7 @@ export async function addJob(
         label: block.newPlainTextObject("Interval"),
     });
 
+    // Adding an input block for geting the number of interval
     block.addInputBlock({
         blockId: blockId.JOB,
         element: block.newPlainTextInputElement({
@@ -74,6 +91,13 @@ export async function addJob(
         }),
         label: block.newPlainTextObject("Number of intervals"),
     });
+
+    /*
+    After adding all blocks we now have to set the viewId to
+    the modal and also provide a submit action button
+    Once the user clicks on the submit button the viewSubmitHandler is
+    triggered with id given here as view.JOB
+    */
     const modal = {
         id: viewId.JOB,
         title: block.newPlainTextObject("Reminder"),
@@ -87,7 +111,14 @@ export async function addJob(
         blocks: block.getBlocks(),
     };
     const triggerId = context.getTriggerId()!;
+    /*
+    Once all this is configured we open the view with the help of
+    UI controller by providing modal, triggerId and the sender details
+    This opens a view for the user
+    */
     await modify
         .getUiController()
         .openModalView(modal, { triggerId }, context.getSender());
+    // Now if the user submmits the view the ../handlers/ViewSubmit where we have the
+    // viewsubmithandler gets triggered
 }
