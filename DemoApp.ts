@@ -24,17 +24,14 @@ import { ExampleEndpoint } from "./api/ExampleEndPoint";
 import { ApiWithPersistence } from "./api/PersistenceWithEndPoint";
 import { ExampleCommand } from "./commands/ExampleCommand";
 import { IncrementCommand } from "./commands/IncrementCommand";
+import { ScheduleCommand } from "./commands/ScheduleCommand";
 import { buttons } from "./config/Buttons";
 import { settings } from "./config/Settings";
 import { ExampleActionButtonHandler } from "./handlers/ActionButton";
 import { ExampleViewSubmitHandler } from "./handlers/ViewSubmit";
 
 export class DemoAppApp extends App {
-    constructor(
-        info: IAppInfo,
-        logger: ILogger,
-        accessors: IAppAccessors,
-    ) {
+    constructor(info: IAppInfo, logger: ILogger, accessors: IAppAccessors) {
         super(info, logger, accessors);
     }
 
@@ -63,12 +60,64 @@ export class DemoAppApp extends App {
             new ExampleCommand(this)
         );
         await configuration.slashCommands.provideSlashCommand(
-            new IncrementCommand(this),
+            new IncrementCommand(this)
+        );
+        await configuration.slashCommands.provideSlashCommand(
+            new ScheduleCommand(this)
         );
         // Registering Action Buttons
         await Promise.all(
             buttons.map((button) => configuration.ui.registerButton(button))
         );
+        // Registring schedluing processors
+        // This processor can be scheduled using the process id
+        await configuration.scheduler.registerProcessors([
+            {
+                id: "reminder",
+                processor: async (jobContext, read, modify, http, persis) => {
+                    const block = modify.getCreator().getBlockBuilder();
+                    const time = jobContext.time;
+                    const text = jobContext.message;
+                    const username = jobContext.username;
+                    block.addSectionBlock({
+                        text: block.newPlainTextObject(`@${username} You created a reminder to remind you at ${time}
+                        *About*
+                        ${text}`),
+                    });
+                    const message = modify
+                        .getCreator()
+                        .startMessage()
+                        .addBlocks(block.getBlocks())
+                        .setRoom(
+                            (await read
+                                .getRoomReader()
+                                .getById(jobContext.room))!
+                        );
+                    await modify.getCreator().finish(message);
+                },
+            },
+            {
+                id: "job",
+                processor: async (jobContext, read, modify, http, persis) => {
+                    const block = modify.getCreator().getBlockBuilder();
+                    block.addSectionBlock({
+                        text: block.newPlainTextObject(`@${jobContext.username} You created a recurring reminder to remind you at an interval of ${jobContext.interval}
+                        *About*
+                        ${jobContext.message}`),
+                    });
+                    const message = modify
+                        .getCreator()
+                        .startMessage()
+                        .addBlocks(block.getBlocks())
+                        .setRoom(
+                            (await read
+                                .getRoomReader()
+                                .getById(jobContext.room))!
+                        );
+                    await modify.getCreator().finish(message);
+                },
+            },
+        ]);
     }
 
     public async onSettingUpdated(
@@ -81,7 +130,10 @@ export class DemoAppApp extends App {
         // this will show in ADMIN > APPS > INSTALLED APP > THIS APP > LOGS
         // Log from inside the app
         // note that you can pass both any or a list or any
-        let list_to_log = ["Some Setting was Updated. SUCCESS MESSAGE: ", setting]
+        let list_to_log = [
+            "Some Setting was Updated. SUCCESS MESSAGE: ",
+            setting,
+        ];
         // you can have a different type of logs:
         this.getLogger().success(list_to_log);
         this.getLogger().info(list_to_log);

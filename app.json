@@ -1,7 +1,7 @@
 {
     "id": "67a4e34b-5c04-4c9c-9358-3d0fd217cefd",
     "version": "0.0.1",
-    "requiredApiVersion": "^1.19.0",
+    "requiredApiVersion": "^1.36.0",
     "iconFile": "icon.png",
     "author": {
         "name": "Duda Nogueira",
@@ -34,6 +34,12 @@
         },
         {
             "name": "persistence"
+        },
+        {
+            "name": "ui.interact"
+        },
+        {
+            "name": "scheduler"
         }
     ]
 }
