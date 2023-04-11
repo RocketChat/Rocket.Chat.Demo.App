@@ -3,16 +3,14 @@ import {
     IModify,
     IRead,
 } from "@rocket.chat/apps-engine/definition/accessors";
-import { IRoom, RoomType } from "@rocket.chat/apps-engine/definition/rooms";
 import {
     ISlashCommand,
     SlashCommandContext,
 } from "@rocket.chat/apps-engine/definition/slashcommands";
-import { IUser } from "@rocket.chat/apps-engine/definition/users";
 import { DemoAppApp } from "../DemoApp";
 import { sendMessage } from '../lib/sendMessage';
 import { sendNotification } from '../lib/sendNotification';
-
+import { sendDirect } from "../lib/sendDirectMessage";
 export class ExampleCommand implements ISlashCommand {
 
     public command = "example"; // here is where you define the command name,
@@ -73,7 +71,8 @@ export class ExampleCommand implements ISlashCommand {
                 case "direct": // If Direct, send a direct message
                     message =
                         "I am a **DIRECT Message**. I was created for you, and only you! :heart_decoration:";
-                    await this.sendDirect(context, read, modify, message);
+                    await sendDirect(context,read,modify,message,this.app)
+
                     break;
 
                 case "h":
@@ -87,68 +86,5 @@ export class ExampleCommand implements ISlashCommand {
                     break;
             }
         }
-    }
-
-    private async getOrCreateDirectRoom(
-        read: IRead,
-        modify: IModify,
-        usernames: Array<string>,
-        creator?: IUser
-    ) {
-        let room;
-        // first, let's try to get the direct room for given usernames
-        try {
-            room = await read.getRoomReader().getDirectByUsernames(usernames);
-        } catch (error) {
-            this.app.getLogger().log(error);
-            return;
-        }
-        // nice, room exist already, lets return it.
-        if (room) {
-            return room;
-        } else {
-            // no room for the given users. Lets create a room now!
-            // for flexibility, we might allow different creators
-            // if no creator, use app user bot
-            if (!creator) {
-                creator = await read.getUserReader().getAppUser();
-                if (!creator) {
-                    throw new Error("Error while getting AppUser");
-                }
-            }
-
-            let roomId: string;
-            // Create direct room
-            const newRoom = modify
-                .getCreator()
-                .startRoom()
-                .setType(RoomType.DIRECT_MESSAGE)
-                .setCreator(creator)
-                .setMembersToBeAddedByUsernames(usernames);
-            roomId = await modify.getCreator().finish(newRoom);
-            return await read.getRoomReader().getById(roomId);
-        }
-    }
-
-    private async sendDirect(
-        context: SlashCommandContext,
-        read: IRead,
-        modify: IModify,
-        message: string
-    ): Promise<void> {
-        const messageStructure = modify.getCreator().startMessage();
-        const sender = context.getSender(); // get the sender from context
-        // get the appUser username
-        const appUser = await read.getUserReader().getAppUser();
-        if (!appUser) {
-            throw new Error("Something went wrong getting App User!");
-        }
-        // lets use a function we created to get or create direct room
-        let room = (await this.getOrCreateDirectRoom(read, modify, [
-            sender.username,
-            appUser.username,
-        ])) as IRoom;
-        messageStructure.setRoom(room).setText(message); // set the text message
-        await modify.getCreator().finish(messageStructure); // sends the message in the room.
     }
 }
